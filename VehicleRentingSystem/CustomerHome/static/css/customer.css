@@ -1,0 +1,9 @@
+div.Boxshadow {
+    box-shadow: 10px 9px 24px -7px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.3s ease-in-out;
+}
+
+div.Boxshadow:hover {
+    box-shadow: 10px 9px 24px 0px rgba(0, 0, 0, 0.6);
+    transition: all 0.4s ease-in-out;
+}

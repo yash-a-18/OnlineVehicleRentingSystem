@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 # Create your views here.
 def index(request):
-    return render(request,'Customer/index.html')
+    index=[1,2,3,4,5,6];
+    return render(request,'index.html',{'p':index})
 
 def about_us(request):
     return HttpResponse('About Us')
