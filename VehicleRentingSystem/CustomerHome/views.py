@@ -7,6 +7,8 @@ isLogin = False
 
 # Create your views here.
 def index(request):
+    if('user_email' in request.session):
+        return redirect('/Home/')
     index=[1,2,3,4,5,6];
     global isLogin
     if('user_email' not in request.session and isLogin):
@@ -27,8 +29,8 @@ def LoginAuthentication(request):
     login_password=request.POST.get('login_password','')
     # customer = Customer.objects.all()
 
-    result = Customer.objects.filter(customer_email=login_email,customer_password=login_password)
-    if result.exists():
+    result_customer = Customer.objects.filter(customer_email=login_email,customer_password=login_password)
+    if result_customer.exists():
         request.session['user_email'] = login_email
         isLogin = True
         return redirect('/Home/')
@@ -77,6 +79,13 @@ def Home(request):
     index=[1,2,3,4,5,6]
     Message="Welcome Aboard!!"
     return render(request,'Home.html',{'p':index,'Message':Message,'customer':customer})
+
+def Profile(request):
+    if('user_email' not in request.session):
+        return redirect('/')
+    customer_email = request.session.get('user_email')
+    customer = Customer.objects.get(customer_email=customer_email)
+    return render(request,'Profile.html',{'customer':customer})
 
 def about_us(request):
     return HttpResponse('About Us')
