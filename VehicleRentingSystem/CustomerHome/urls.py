@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 from CustomerHome.views import RegisterCustomer
 
 urlpatterns = [
@@ -19,3 +21,6 @@ urlpatterns = [
     path('RegisterCustomer/',views.RegisterCustomer,name="RegisterCustomer"),
     # url(r'^RegisterCustomer/',RegisterCustomer),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL ,document_root=settings.MEDIA_ROOT)

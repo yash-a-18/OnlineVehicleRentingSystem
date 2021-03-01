@@ -17,14 +17,14 @@
     <link rel="icon" href="{% static 'img/Logos/TabTop2Logo.png' %}" type="image/gif" sizes="18x18">
 
     <title>Fast Rentals - {% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/customer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/owner.css' %}">
     <script src="{% static 'js/customer.js' %}" type="text/javascript"></script>
 
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style="font-size: larger;" aria-label="" aria-labbelledby="">
-        <a href="/Home"><img class="navbar-brand" src="{% static 'img/Logos/Trial3Logo.png' %}" height="50"></a>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style="font-size: large;" aria-label="" aria-labbelledby="">
+        <a href="\"><img class="navbar-brand" src="{% static 'img/Logos/Trial3Logo.png' %}" height="50"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,14 +32,49 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/Home" style="color: #f1f1f1;">Home</a>
+                    <a class="nav-link" href="/" style="color: #f1f1f1;">Home</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color: #f1f1f1;">Sent Requests</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="color: #f1f1f1;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Your Rentals
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Sent Requests</a>
+                        <a class="dropdown-item" href="#">Previous Rentals</a>
+                    </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color: #f1f1f1;">Previous Rentals</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="color: #f1f1f1;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Customer's Rentals
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Rent Requests</a>
+                        <a class="dropdown-item" href="#">Rental History</a>
+                    </div>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="color: #f1f1f1;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Managers
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Register Manager</a>
+                        <a class="dropdown-item" href="#">View All Managers</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="color: #f1f1f1;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Vehicles
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Upload Vehicle</a>
+                        <a class="dropdown-item" href="#">View All Vehicles</a>
+                    </div>
+                </li>
+
             </ul>
 
             <ul class="navbar-nav justify-content-end">
@@ -51,8 +86,7 @@
 
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link" href="/Logout" style="color: #f1f1f1;">
-                        Logout</a>
+                    <a class="nav-link" href="signin" style="color: #f1f1f1;">Logout</a>
                 </li>
             </ul>
 

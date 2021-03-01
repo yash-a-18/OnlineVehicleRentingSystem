@@ -1,0 +1,65 @@
+div.Boxshadow {
+    box-shadow: 10px 9px 24px -7px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.3s ease-in-out;
+}
+
+div.Boxshadow:hover {
+    box-shadow: 10px 9px 24px 0px rgba(0, 0, 0, 0.6);
+    transition: all 0.4s ease-in-out;
+}
+
+div#signin {
+    border: 2px solid rgba(28, 110, 164, 0.46);
+    border-radius: 15px;
+    margin: auto;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+/* Navbar underline on hover  starts*/
+
+.navbar-nav a:after,
+.navbar-nav a:before {
+    transition: all .5s;
+}
+
+.navbar-nav a:hover {
+    color: #555;
+}
+
+.navbar-nav a {
+    position: relative;
+    margin-right: 20px;
+}
+
+.navbar-nav a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: orange;
+    height: 1px;
+}
+
+.navbar-nav a:hover:after {
+    width: 100%;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+
+
+/* Navbar ends */

@@ -35,7 +35,7 @@
                     <a class="nav-link" href="/Home" style="color: #f1f1f1;">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color: #f1f1f1;">Rent Requests</a>
+                    <a class="nav-link" href="#" style="color: #f1f1f1;">Sent Requests</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#" style="color: #f1f1f1;">Previous Rentals</a>
@@ -64,7 +64,7 @@
             <!-- License Image -->
             <div class="col-sm-4">
                 <div class="card p-2" style="width: auto;">
-                    <img class="card-img-top" src="../../media/{{customer.customer_license}}" alt="Card image cap">
+                    <img class="card-img-top" src="{{customer.customer_license.url}}" alt="Your License">
                     <div class="card-body">
                         <h6 class="card-title">License</h6>
                     </div>

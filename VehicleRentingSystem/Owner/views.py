@@ -3,4 +3,6 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return render(request,'Owner/index.html')
+    index=[1,2,3,4,5,6]
+    print("here")
+    return render(request,'Owner_index.html',{'p':index})

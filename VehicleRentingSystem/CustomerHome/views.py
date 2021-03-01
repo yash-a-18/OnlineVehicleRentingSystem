@@ -40,6 +40,7 @@ def LoginAuthentication(request):
 
 def RegisterCustomer(request):
     global isLogin
+
     customer_firstname=request.POST.get('customer_firstname','')
     customer_lastname=request.POST.get('customer_lastname','')
     customer_dob=request.POST.get('customer_dob','')
@@ -53,17 +54,22 @@ def RegisterCustomer(request):
     customer_country=request.POST.get('customer_country','')
     customer_pincode=request.POST.get('customer_pincode','')
     customer_license=request.FILES['customer_license']
-    
-    customer=Customer(customer_firstname=customer_firstname,customer_lastname=customer_lastname,
-    customer_dob=customer_dob,customer_gender=customer_gender,customer_mobileno=customer_mobileno,
-    customer_email=customer_email,customer_password=customer_password,customer_address=customer_address,
-    customer_city=customer_city,customer_state=customer_state,customer_country=customer_country,
-    customer_pincode=customer_pincode,customer_license=customer_license)
-    
-    customer.save()
-    request.session['user_email'] = customer_email
-    isLogin = True
-    return redirect('/Home/')
+
+    result_customer = Customer.objects.filter(customer_email=customer_email)
+    if result_customer.exists():
+        Message = "This Email address already exist!!"
+        return render(request,'register.html',{'Message':Message})
+    else:
+        customer=Customer(customer_firstname=customer_firstname,customer_lastname=customer_lastname,
+        customer_dob=customer_dob,customer_gender=customer_gender,customer_mobileno=customer_mobileno,
+        customer_email=customer_email,customer_password=customer_password,customer_address=customer_address,
+        customer_city=customer_city,customer_state=customer_state,customer_country=customer_country,
+        customer_pincode=customer_pincode,customer_license=customer_license)
+        
+        customer.save()
+        request.session['user_email'] = customer_email
+        isLogin = True
+        return redirect('/Home/')
 
 def Logout(request):
     del request.session['user_email']
@@ -73,7 +79,7 @@ def Logout(request):
 
 def Home(request):
     if('user_email' not in request.session):
-        return redirect('/')
+        return redirect('/signin/')
     customer_email = request.session.get('user_email')
     customer = Customer.objects.get(customer_email=customer_email)
     index=[1,2,3,4,5,6]
@@ -82,7 +88,7 @@ def Home(request):
 
 def Profile(request):
     if('user_email' not in request.session):
-        return redirect('/')
+        return redirect('/signin/')
     customer_email = request.session.get('user_email')
     customer = Customer.objects.get(customer_email=customer_email)
     return render(request,'Profile.html',{'customer':customer})
