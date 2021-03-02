@@ -6,10 +6,12 @@ from Owner.models import Owner
 from Manager.models import Manager
 
 isLogin = False
+isLogout = False
 
 # Create your views here.
 def index(request):
     global isLogin
+    global isLogout
 
     if('user_email' in request.session):
         email = request.session.get('user_email')
@@ -24,15 +26,18 @@ def index(request):
             return redirect('/Home/')
         elif result_owner.exists():
             request.session['user_email'] = email
+            isLogin = True
             return redirect('/Owner/')
         elif result_manager.exists():
             request.session['user_email'] = email
+            isLogin = True
             return redirect('/Manager/')
         return redirect('/Home/')
 
     index=[1,2,3,4,5,6]
-    if('user_email' not in request.session and isLogin):
+    if('user_email' not in request.session and isLogout):
         isLogin = False
+        isLogout = False
         Message = "Successfully Logged Out!!"
         return render(request,'index.html',{'Message':Message,'p':index})
     return render(request,'index.html',{'p':index})
@@ -59,9 +64,11 @@ def LoginAuthentication(request):
         return redirect('/Home/')
     elif result_owner.exists():
         request.session['user_email'] = login_email
+        isLogin = True
         return redirect('/Owner/')
     elif result_manager.exists():
         request.session['user_email'] = login_email
+        isLogin = True
         return redirect('/Manager/')
     else:
         Message = "Invalid Email or password!!"
@@ -104,7 +111,9 @@ def RegisterCustomer(request):
         return redirect('/Home/')
 
 def Logout(request):
+    global isLogout
     del request.session['user_email']
+    isLogout = True
     Message = "Successfully Logged Out!!"
     index=[1,2,3,4,5,6]
     return redirect('/')

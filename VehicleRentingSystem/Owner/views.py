@@ -74,3 +74,26 @@ def AllCustomers(request):
     owner = Owner.objects.get(Owner_email=owner_email)
     customer = Customer.objects.all()
     return render(request,"All_Customers.html",{'customer':customer,'owner':owner})
+
+def Vehicle(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    return render(request,"Owner_Upload_Vehicle.html",{'owner':owner})
+
+def Manager_Profile(request,Manager_email):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    manager = Manager.objects.get(Manager_email=Manager_email)
+    return render(request,'Owner_Manager_Profile.html',{'owner':owner,'manager':manager})
+
+def Customer_Profile(request,customer_email):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    customer = Customer.objects.get(customer_email=customer_email)
+    return render(request,'Owner_Customer_Profile.html',{'owner':owner,'customer':customer})

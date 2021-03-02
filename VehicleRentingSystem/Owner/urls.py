@@ -10,10 +10,13 @@ urlpatterns = [
     path('signin/',cust_views.signin, name="SignIn"),
     path('Logout/',cust_views.Logout, name="Logout"),
     path('Profile/',views.Profile, name="Profile"),
+    path('UploadVehicle/',views.Vehicle, name="UploadVehicle"),
     path('RegisterManager/',views.register_manager, name="RegisterManager"),
     path('ManagerRegistration/',views.ManagerRegistration, name="ManagerRegistration"),
     path('AllManagers/',views.AllManagers, name="AllManagers"),
-    path('AllCustomers/',views.AllCustomers, name="AllCustomers")
+    path('AllCustomers/',views.AllCustomers, name="AllCustomers"),
+    path('ManagerProfile/<str:Manager_email>/',views.Manager_Profile,name="ManagerProfile"),
+    path('CustomerProfile/<str:customer_email>/',views.Customer_Profile,name="CustomerProfile"),
 ]
 
 if settings.DEBUG:

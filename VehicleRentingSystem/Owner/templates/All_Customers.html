@@ -27,7 +27,7 @@
                 <td>{{value.customer_firstname}}</td>
                 <td>{{value.customer_lastname}}</td>
                 <td>{{value.customer_email}}</td>
-                <td><a href="#">view</a></td>
+                <td><a href="{% url 'CustomerProfile' value.customer_email%}">view</a></td>
             </tr>
             {% endfor %}
         </tbody>

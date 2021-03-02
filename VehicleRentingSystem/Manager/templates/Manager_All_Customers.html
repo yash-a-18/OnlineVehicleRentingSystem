@@ -1,4 +1,4 @@
-{%extends 'Only_owner_navbar.html'%} {% load static %}
+{%extends 'Only_manager_navbar.html'%} {% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -8,8 +8,8 @@
 </head>
 
 <body>
-    {% block name %}{{owner.Owner_firstname}}{%endblock%} {% block pagecontent %}
-    <h1 class="display-3" style="text-align: center;">Managers</h1>
+    {% block name %}{{manager.Manager_firstname}}{%endblock%} {% block pagecontent %}
+    <h1 class="display-3" style="text-align: center;">Customers</h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,13 +21,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for value in manager %}
+            {% for value in customer %}
             <tr>
                 <th scope="row">{{forloop.counter}}</th>
-                <td>{{value.Manager_firstname}}</td>
-                <td>{{value.Manager_lastname}}</td>
-                <td>{{value.Manager_email}}</td>
-                <td><a href="{% url 'ManagerProfile' value.Manager_email%}">view</a></td>
+                <td>{{value.customer_firstname}}</td>
+                <td>{{value.customer_lastname}}</td>
+                <td>{{value.customer_email}}</td>
+                <td><a href="{% url 'ManagerCustomerProfile' value.customer_email%}">view</a></td>
             </tr>
             {% endfor %}
         </tbody>
