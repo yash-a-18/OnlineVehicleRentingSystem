@@ -3,7 +3,7 @@ from . import views
 from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
-from CustomerHome.views import RegisterCustomer
+from django.conf.urls import include
 
 urlpatterns = [
     path('', views.index, name="Home"),
@@ -19,6 +19,7 @@ urlpatterns = [
     path('rentvehicle/',views.rent_vehicle,name="RentVehicle"),
     path('LoginAuthentication/',views.LoginAuthentication,name="LoginAuthentication"),
     path('RegisterCustomer/',views.RegisterCustomer,name="RegisterCustomer"),
+    path('Owner/',include("Owner.urls"))
     # url(r'^RegisterCustomer/',RegisterCustomer),
 ]
 

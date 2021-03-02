@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from CustomerHome.models import Customer
+from Owner.models import Owner
+from Manager.models import Manager
 
 isLogin = False
 
@@ -9,7 +11,7 @@ isLogin = False
 def index(request):
     if('user_email' in request.session):
         return redirect('/Home/')
-    index=[1,2,3,4,5,6];
+    index=[1,2,3,4,5,6]
     global isLogin
     if('user_email' not in request.session and isLogin):
         isLogin = False
@@ -30,10 +32,15 @@ def LoginAuthentication(request):
     # customer = Customer.objects.all()
 
     result_customer = Customer.objects.filter(customer_email=login_email,customer_password=login_password)
+    result_owner = Owner.objects.filter(Owner_email=login_email,Owner_password=login_password)
     if result_customer.exists():
         request.session['user_email'] = login_email
         isLogin = True
         return redirect('/Home/')
+    elif result_owner.exists():
+        request.session['user_email'] = login_email
+        isLogin = True
+        return redirect('/Owner/')
     else:
         Message = "Invalid Email or password!!"
         return render(request,'SignIn.html',{'p':index,'Message':Message})
@@ -56,7 +63,9 @@ def RegisterCustomer(request):
     customer_license=request.FILES['customer_license']
 
     result_customer = Customer.objects.filter(customer_email=customer_email)
-    if result_customer.exists():
+    result_owner = Owner.objects.filter(Owner_email=customer_email)
+    result_manager = Manager.objects.filter(Manager_email=customer_email)
+    if result_customer.exists() or result_owner.exists() or result_manager.exists():
         Message = "This Email address already exist!!"
         return render(request,'register.html',{'Message':Message})
     else:
