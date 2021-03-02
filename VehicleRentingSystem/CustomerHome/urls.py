@@ -19,7 +19,8 @@ urlpatterns = [
     path('rentvehicle/',views.rent_vehicle,name="RentVehicle"),
     path('LoginAuthentication/',views.LoginAuthentication,name="LoginAuthentication"),
     path('RegisterCustomer/',views.RegisterCustomer,name="RegisterCustomer"),
-    path('Owner/',include("Owner.urls"))
+    path('Owner/',include("Owner.urls")),
+    path('Manager/',include("Manager.urls"))
     # url(r'^RegisterCustomer/',RegisterCustomer),
 ]
 

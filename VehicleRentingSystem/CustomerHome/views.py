@@ -9,10 +9,28 @@ isLogin = False
 
 # Create your views here.
 def index(request):
-    if('user_email' in request.session):
-        return redirect('/Home/')
-    index=[1,2,3,4,5,6]
     global isLogin
+
+    if('user_email' in request.session):
+        email = request.session.get('user_email')
+
+        result_customer = Customer.objects.filter(customer_email=email)
+        result_owner = Owner.objects.filter(Owner_email=email)
+        result_manager = Manager.objects.filter(Manager_email=email)
+
+        if result_customer.exists():
+            request.session['user_email'] = email
+            isLogin = True
+            return redirect('/Home/')
+        elif result_owner.exists():
+            request.session['user_email'] = email
+            return redirect('/Owner/')
+        elif result_manager.exists():
+            request.session['user_email'] = email
+            return redirect('/Manager/')
+        return redirect('/Home/')
+
+    index=[1,2,3,4,5,6]
     if('user_email' not in request.session and isLogin):
         isLogin = False
         Message = "Successfully Logged Out!!"
@@ -33,14 +51,18 @@ def LoginAuthentication(request):
 
     result_customer = Customer.objects.filter(customer_email=login_email,customer_password=login_password)
     result_owner = Owner.objects.filter(Owner_email=login_email,Owner_password=login_password)
+    result_manager = Manager.objects.filter(Manager_email=login_email,Manager_password=login_password)
+
     if result_customer.exists():
         request.session['user_email'] = login_email
         isLogin = True
         return redirect('/Home/')
     elif result_owner.exists():
         request.session['user_email'] = login_email
-        isLogin = True
         return redirect('/Owner/')
+    elif result_manager.exists():
+        request.session['user_email'] = login_email
+        return redirect('/Manager/')
     else:
         Message = "Invalid Email or password!!"
         return render(request,'SignIn.html',{'p':index,'Message':Message})
@@ -65,6 +87,7 @@ def RegisterCustomer(request):
     result_customer = Customer.objects.filter(customer_email=customer_email)
     result_owner = Owner.objects.filter(Owner_email=customer_email)
     result_manager = Manager.objects.filter(Manager_email=customer_email)
+
     if result_customer.exists() or result_owner.exists() or result_manager.exists():
         Message = "This Email address already exist!!"
         return render(request,'register.html',{'Message':Message})
