@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from Owner.models import Owner
 from Manager.models import Manager
 from CustomerHome.models import Customer
+from Vehicles.models import Vehicle
 
 # Create your views here.
 def index(request):
@@ -75,13 +76,6 @@ def AllCustomers(request):
     customer = Customer.objects.all()
     return render(request,"All_Customers.html",{'customer':customer,'owner':owner})
 
-def Vehicle(request):
-    if('user_email' not in request.session):
-        return redirect('/signin/')
-    owner_email = request.session.get('user_email')
-    owner = Owner.objects.get(Owner_email=owner_email)
-    return render(request,"Owner_Upload_Vehicle.html",{'owner':owner})
-
 def Manager_Profile(request,Manager_email):
     if('user_email' not in request.session):
         return redirect('/signin/')
@@ -97,3 +91,19 @@ def Customer_Profile(request,customer_email):
     owner = Owner.objects.get(Owner_email=owner_email)
     customer = Customer.objects.get(customer_email=customer_email)
     return render(request,'Owner_Customer_Profile.html',{'owner':owner,'customer':customer})
+
+def upload_Vehicle(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    return render(request,"Owner_Upload_Vehicle.html",{'owner':owner})
+
+def AllVehicles(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    print(owner)
+    vehicle = Vehicle.objects.all()
+    return render(request,"Owner_all_vehicles.html",{'vehicle':vehicle,'owner':owner})

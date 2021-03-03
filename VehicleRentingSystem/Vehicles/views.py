@@ -40,4 +40,4 @@ def owner_upload_vehicle(request):
         Vehicle_image3=Vehicle_image3)
         
         vehicle.save()
-        return redirect('/Owner/')
+        return redirect('/Owner/AllVehicles')
