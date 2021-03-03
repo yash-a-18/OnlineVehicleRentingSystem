@@ -17,7 +17,7 @@ class Manager(models.Model):
     Manager_state = models.CharField(max_length=30)
     Manager_country = models.CharField(max_length=30)
     Manager_pincode = models.IntegerField()
-    isManager = models.BooleanField(default=True)
+    isOwner = models.BooleanField(default=False)
 
     def __str__(self):
         return self.Manager_email + ": " + str(self.Manager_license)

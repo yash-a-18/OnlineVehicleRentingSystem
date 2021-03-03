@@ -3,7 +3,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from CustomerHome import views as cust_views
-
+from Vehicles import views as veh_views
 
 urlpatterns = [
     path('', views.index, name="Owner"),
@@ -17,6 +17,7 @@ urlpatterns = [
     path('AllCustomers/',views.AllCustomers, name="AllCustomers"),
     path('ManagerProfile/<str:Manager_email>/',views.Manager_Profile,name="ManagerProfile"),
     path('CustomerProfile/<str:customer_email>/',views.Customer_Profile,name="CustomerProfile"),
+    path('Vehicle/UploadVehicle',veh_views.owner_upload_vehicle,name="UploadVehicle")
 ]
 
 if settings.DEBUG:
