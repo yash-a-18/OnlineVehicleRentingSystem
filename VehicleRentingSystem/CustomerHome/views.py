@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from CustomerHome.models import Customer
 from Owner.models import Owner
 from Manager.models import Manager
+from Vehicles.models import Vehicle
 
 isLogin = False
 isLogout = False
@@ -34,13 +35,13 @@ def index(request):
             return redirect('/Manager/')
         return redirect('/Home/')
 
-    index=[1,2,3,4,5,6]
+    vehicle = Vehicle.objects.all()
     if('user_email' not in request.session and isLogout):
         isLogin = False
         isLogout = False
         Message = "Successfully Logged Out!!"
-        return render(request,'index.html',{'Message':Message,'p':index})
-    return render(request,'index.html',{'p':index})
+        return render(request,'index.html',{'Message':Message,'vehicle':vehicle})
+    return render(request,'index.html',{'vehicle':vehicle})
 
 def signin(request):
     return render(request,'SignIn.html')
@@ -72,7 +73,7 @@ def LoginAuthentication(request):
         return redirect('/Manager/')
     else:
         Message = "Invalid Email or password!!"
-        return render(request,'SignIn.html',{'p':index,'Message':Message})
+        return render(request,'SignIn.html',{'Message':Message})
 
 def RegisterCustomer(request):
     global isLogin
@@ -115,7 +116,6 @@ def Logout(request):
     del request.session['user_email']
     isLogout = True
     Message = "Successfully Logged Out!!"
-    index=[1,2,3,4,5,6]
     return redirect('/')
 
 def Home(request):
@@ -123,9 +123,9 @@ def Home(request):
         return redirect('/signin/')
     customer_email = request.session.get('user_email')
     customer = Customer.objects.get(customer_email=customer_email)
-    index=[1,2,3,4,5,6]
+    vehicle = Vehicle.objects.all()
     Message="Welcome Aboard!!"
-    return render(request,'Home.html',{'p':index,'Message':Message,'customer':customer})
+    return render(request,'Home.html',{'vehicle':vehicle,'Message':Message,'customer':customer})
 
 def Profile(request):
     if('user_email' not in request.session):

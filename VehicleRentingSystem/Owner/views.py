@@ -11,9 +11,9 @@ def index(request):
         return redirect('/signin/')
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
-    index=[1,2,3,4,5,6]
+    vehicle = Vehicle.objects.all()
     Message="Welcome Aboard!!"
-    return render(request,'Owner_index.html',{'p':index,'Message':Message,'owner':owner})
+    return render(request,'Owner_index.html',{'vehicle':vehicle,'Message':Message,'owner':owner})
 
 def Profile(request):
     if('user_email' not in request.session):
