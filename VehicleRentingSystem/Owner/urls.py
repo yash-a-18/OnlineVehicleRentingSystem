@@ -18,7 +18,7 @@ urlpatterns = [
     path('AllVehicles/',views.AllVehicles, name="AllVehicles"),
     path('ManagerProfile/<str:Manager_email>/',views.Manager_Profile,name="ManagerProfile"),
     path('CustomerProfile/<str:customer_email>/',views.Customer_Profile,name="CustomerProfile"),
-    path('Vehicle/UploadVehicle',veh_views.owner_upload_vehicle,name="UploadVehicle")
+    path('Vehicle/UploadVehicle',veh_views.upload_vehicle,name="UploadVehicle")
 ]
 
 if settings.DEBUG:

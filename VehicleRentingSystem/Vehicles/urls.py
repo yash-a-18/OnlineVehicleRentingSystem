@@ -5,8 +5,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('UploadVehicle/', views.owner_upload_vehicle,name="UploadVehicle"),
+    path('UploadVehicle/', views.upload_vehicle,name="UploadVehicle"),
     path('Owner/',include("Owner.urls")),
+    path('Manager/',include("Manager.urls"))
 ]
 
 if settings.DEBUG:

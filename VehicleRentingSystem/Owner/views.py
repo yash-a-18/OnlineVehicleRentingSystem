@@ -104,6 +104,5 @@ def AllVehicles(request):
         return redirect('/signin/')
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
-    print(owner)
     vehicle = Vehicle.objects.all()
     return render(request,"Owner_all_vehicles.html",{'vehicle':vehicle,'owner':owner})

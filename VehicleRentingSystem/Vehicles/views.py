@@ -6,7 +6,7 @@ from Manager.models import Manager
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-def owner_upload_vehicle(request):
+def upload_vehicle(request):
     Vehicle_name=request.POST.get('Vehicle_name','')
     Vehicle_company=request.POST.get('Vehicle_company','')
     Vehicle_model=request.POST.get('Vehicle_model','')
@@ -26,10 +26,16 @@ def owner_upload_vehicle(request):
     Vehicle_image3=request.FILES['Vehicle_image3']
 
     result_vehicle = Vehicle.objects.filter(Vehicle_license_plate=Vehicle_license_plate)
+    result_owner = Owner.objects.filter(Owner_email=Vehicle_uploaded_by)
+    result_manager = Manager.objects.filter(Manager_email=Vehicle_uploaded_by)
 
     if result_vehicle.exists():
-        Message = "This Vehicle already exist!!"
-        return render(request,'Owner_Upload_Vehicle.html',{'Message':Message})
+        if result_owner.exists():
+            Message = "This Vehicle already exist!!"
+            return render(request,'Owner_Upload_Vehicle.html',{'Message':Message})
+        if result_manager.exists():
+            Message = "This Vehicle already exist!!"
+            return render(request,'Manager_Upload_Vehicle.html',{'Message':Message})
     else:
         vehicle=Vehicle(Vehicle_name=Vehicle_name,Vehicle_company=Vehicle_company,
         Vehicle_model=Vehicle_model,Vehicle_type=Vehicle_type,Vehicle_fuel=Vehicle_fuel,
@@ -40,4 +46,7 @@ def owner_upload_vehicle(request):
         Vehicle_image3=Vehicle_image3)
         
         vehicle.save()
-        return redirect('/Owner/AllVehicles')
+        if result_owner.exists():
+            return redirect('/Owner/AllVehicles')
+        if result_manager.exists():
+            return redirect('/Manager/AllVehicles')

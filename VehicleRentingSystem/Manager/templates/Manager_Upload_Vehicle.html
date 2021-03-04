@@ -1,4 +1,4 @@
-{%extends 'Only_owner_navbar.html'%} {% load static %}
+{%extends 'Only_manager_navbar.html'%} {% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    {% block name %}{{owner.Owner_firstname}}{%endblock%} {% block pagecontent %}
+    {% block name %}{{manager.Manager_firstname}}{%endblock%} {% block pagecontent %}
     <h1 class="display-4" style="text-align: center;">Upload Vehicle</h1>
 
     {%if Message%}
@@ -23,7 +23,7 @@
     {%endif%}
 
     <div class="container my-5 p-3 lead" id="signin">
-        <form action="/Owner/Vehicle/UploadVehicle" class="px-4 py-3" method="post" enctype="multipart/form-data">
+        <form action="/Manager/Vehicle/UploadVehicle" class="px-4 py-3" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="name">Vehicle Name</label>
