@@ -33,7 +33,7 @@
                 <td>{{value.Vehicle_license_plate}}</td>
                 <td>{{value.Vehicle_uploaded_by}}</td>
                 <td>{{value.Vehicle_price}}</td>
-                <td><a href="#">view</a></td>
+                <td><a href="{% url 'ManagerVehicleDetails' value.Vehicle_license_plate %}" target="_blank">view</a></td>
             </tr>
             {% endfor %}
         </tbody>

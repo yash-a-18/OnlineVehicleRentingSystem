@@ -53,3 +53,11 @@ def AllVehicles(request):
     manager = Manager.objects.get(Manager_email=manager_email)
     vehicle = Vehicle.objects.all()
     return render(request,"Manager_all_vehicles.html",{'vehicle':vehicle,'manager':manager})
+
+def showdetails(request,Vehicle_license_plate):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    vehicle = Vehicle.objects.get(Vehicle_license_plate=Vehicle_license_plate)
+    manager_email = request.session.get('user_email')
+    manager = Manager.objects.get(Manager_email=manager_email)
+    return render(request,'Manager_showdetails.html',{'vehicle':vehicle,'manager':manager})

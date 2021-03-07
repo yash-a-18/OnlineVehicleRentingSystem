@@ -17,8 +17,6 @@ class Vehicle(models.Model):
     Vehicle_image3 = models.ImageField(upload_to='img/Vehicle_images/')
     isGeared = models.BooleanField()
     Vehicle_description = models.CharField(max_length=1500)
-    Vehicle_Booked_date = models.DateField(null=True,blank=True)
-    Vehicle_Return_date = models.DateField(null=True,blank=True)
     Vehicle_price = models.IntegerField()
 
     def __str__(self):

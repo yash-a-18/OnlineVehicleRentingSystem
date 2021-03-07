@@ -12,6 +12,7 @@ urlpatterns = [
     path('Profile/',views.Profile, name="Profile"),
     path('AllCustomers/',views.AllCustomers, name="AllCustomers"),
     path('AllVehicles/',views.AllVehicles, name="AllVehicles"),
+    path('VehicleDetails/<str:Vehicle_license_plate>/',views.showdetails,name="ManagerVehicleDetails"),
     path('ManagerCustomerProfile/<str:customer_email>/',views.Customer_Profile,name="ManagerCustomerProfile"),
     path('UploadVehicle/',views.upload_Vehicle, name="UploadVehicle"),
     path('Vehicle/UploadVehicle',veh_views.upload_vehicle,name="UploadVehicle")

@@ -54,7 +54,7 @@
                         <hr>
                         <p class="card-text "><mark><em>Model:</em></mark> {{v.Vehicle_model}}</p>
                         <p class="card-text "><mark><em>Price (per day):</em></mark> ₹ {{v.Vehicle_price}}</p>
-                        <a href="# " class="btn btn-primary ">Show Details</a>
+                        <a href="{% url 'OwnerVehicleDetails' v.Vehicle_license_plate %}" class="btn btn-primary " target="_blank">Show Details</a>
                     </div>
                 </div>
             </div>

@@ -106,3 +106,11 @@ def AllVehicles(request):
     owner = Owner.objects.get(Owner_email=owner_email)
     vehicle = Vehicle.objects.all()
     return render(request,"Owner_all_vehicles.html",{'vehicle':vehicle,'owner':owner})
+
+def showdetails(request,Vehicle_license_plate):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+    vehicle = Vehicle.objects.get(Vehicle_license_plate=Vehicle_license_plate)
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    return render(request,'Owner_showdetails.html',{'vehicle':vehicle,'owner':owner})
