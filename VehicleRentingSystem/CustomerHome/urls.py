@@ -15,10 +15,10 @@ urlpatterns = [
     path('about/', views.about_us, name="AboutUs"),
     path('contact/', views.contact_us, name="ContactUs"),
     path('search/', views.search, name="Search"),
-    path('vehicleview/',views.vehicle_view,name="VehicleView"),
     path('rentvehicle/',views.rent_vehicle,name="RentVehicle"),
     path('LoginAuthentication/',views.LoginAuthentication,name="LoginAuthentication"),
     path('RegisterCustomer/',views.RegisterCustomer,name="RegisterCustomer"),
+    path('VehicleDetails/<str:Vehicle_license_plate>/',views.showdetails,name="VehicleDetails"),
     path('Owner/',include("Owner.urls")),
     path('Manager/',include("Manager.urls"))
     # url(r'^RegisterCustomer/',RegisterCustomer),

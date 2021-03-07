@@ -134,6 +134,15 @@ def Profile(request):
     customer = Customer.objects.get(customer_email=customer_email)
     return render(request,'Profile.html',{'customer':customer})
 
+def showdetails(request,Vehicle_license_plate):
+    vehicle = Vehicle.objects.get(Vehicle_license_plate=Vehicle_license_plate)
+    if('user_email' not in request.session):
+        return render(request,'showdetails_not_login.html',{'vehicle':vehicle})
+    else:
+        customer_email = request.session.get('user_email')
+        customer = Customer.objects.get(customer_email=customer_email)
+        return render(request,'showdetails_loggedin.html',{'vehicle':vehicle,'customer':customer})
+
 def about_us(request):
     return HttpResponse('About Us')
     
@@ -143,8 +152,6 @@ def contact_us(request):
 def search(request):
     return HttpResponse('search')
 
-def vehicle_view(request):
-    return HttpResponse('vehicle view')
 
 def rent_vehicle(request):
     return HttpResponse('rent vehicle')
