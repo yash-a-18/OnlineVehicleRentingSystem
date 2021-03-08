@@ -9,6 +9,8 @@ class RentVehicle(models.Model):
     RentVehicle_id = models.AutoField
     RentVehicle_Date_of_Booking = models.DateField(blank=True,null=True)
     RentVehicle_Date_of_Return = models.DateField(blank=True,null=True)
+    Total_days = models.IntegerField()
+    Advance_amount = models.IntegerField()
     RentVehicle_Total_amount = models.IntegerField()
     isAvailable = models.BooleanField(default=True)
     isBillPaid = models.BooleanField(default=False)

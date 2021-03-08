@@ -45,14 +45,7 @@
 
         </div>
     </nav>
-    {% block pagecontent %} {%if Message%}
-    <div class="alert alert-warning alert-dismissible fade show my-2" role="alert">
-        <strong>{{Message}}!!</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    {%endif%}
+    {% block pagecontent %}
 
     <div class="container my-5">
         <div class="row">
@@ -84,6 +77,24 @@
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title p-1" style="background-color: yellow; text-align: center;">Check Availability
+                        </h5>
+                        <form action="{% url 'CheckAvailability' vehicle.Vehicle_license_plate %}" class="px-4 py-3" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-4">
+                                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="RentVehicle_Date_of_Booking" class="form-control" placeholder="Pickup date" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="RentVehicle_Date_of_Return" class="form-control" placeholder="Return date" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="submit" class="btn btn-success" value="Check Availability" />
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

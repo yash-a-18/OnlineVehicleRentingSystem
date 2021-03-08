@@ -5,6 +5,9 @@ from CustomerHome.models import Customer
 from Owner.models import Owner
 from Manager.models import Manager
 from Vehicles.models import Vehicle
+from RentVehicle.models import RentVehicle
+
+from datetime import datetime
 
 isLogin = False
 isLogout = False
@@ -143,6 +146,35 @@ def showdetails(request,Vehicle_license_plate):
         customer = Customer.objects.get(customer_email=customer_email)
         return render(request,'showdetails_loggedin.html',{'vehicle':vehicle,'customer':customer})
 
+def CheckAvailability(request,Vehicle_license_plate):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    RentVehicle_Date_of_Booking=request.POST.get('RentVehicle_Date_of_Booking','')
+    RentVehicle_Date_of_Return=request.POST.get('RentVehicle_Date_of_Return','')
+
+    RentVehicle_Date_of_Booking = datetime.strptime(RentVehicle_Date_of_Booking, '%Y-%m-%d').date()
+    RentVehicle_Date_of_Return = datetime.strptime(RentVehicle_Date_of_Return, '%Y-%m-%d').date()
+
+    rentvehicle = RentVehicle.objects.filter(Vehicle_license_plate=Vehicle_license_plate)
+    vehicle = Vehicle.objects.get(Vehicle_license_plate=Vehicle_license_plate)
+
+    customer_email = request.session.get('user_email')
+    customer = Customer.objects.get(customer_email=customer_email)
+    
+    for rv in rentvehicle:
+        if rv.RentVehicle_Date_of_Booking <= RentVehicle_Date_of_Booking and RentVehicle_Date_of_Booking <= rv.RentVehicle_Date_of_Return:
+            if rv.isAvailable:
+                Available = True
+                Message = "Note that somebody has also requested for this vehicle from " + str(rv.RentVehicle_Date_of_Booking) + " to " + str(rv.RentVehicle_Date_of_Return)
+                return render(request,'showdetails_loggedin.html',{'Message':Message,'Available':Available,'vehicle':vehicle,'customer':customer})
+
+            NotAvailable = True
+            return render(request,'showdetails_loggedin.html',{'NotAvailable':NotAvailable,'dates':rv,'vehicle':vehicle,'customer':customer})
+    
+    Available = True
+    return render(request,'showdetails_loggedin.html',{'Available':Available,'vehicle':vehicle,'customer':customer})
+
 def about_us(request):
     return HttpResponse('About Us')
     
@@ -151,7 +183,3 @@ def contact_us(request):
 
 def search(request):
     return HttpResponse('search')
-
-
-def rent_vehicle(request):
-    return HttpResponse('rent vehicle')
