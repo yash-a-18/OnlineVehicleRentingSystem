@@ -21,7 +21,6 @@ urlpatterns = [
     path('CheckAvailability/<str:Vehicle_license_plate>/',views.CheckAvailability,name="CheckAvailability"),
     path('Owner/',include("Owner.urls")),
     path('Manager/',include("Manager.urls"))
-    # url(r'^RegisterCustomer/',RegisterCustomer),
 ]
 
 if settings.DEBUG:

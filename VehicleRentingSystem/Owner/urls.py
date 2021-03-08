@@ -17,6 +17,7 @@ urlpatterns = [
     path('AllCustomers/',views.AllCustomers, name="AllCustomers"),
     path('AllVehicles/',views.AllVehicles, name="AllVehicles"),
     path('VehicleDetails/<str:Vehicle_license_plate>/',views.showdetails,name="OwnerVehicleDetails"),
+    path('CheckAvailability/<str:Vehicle_license_plate>/',views.CheckAvailability,name="OwnerCheckAvailability"),
     path('ManagerProfile/<str:Manager_email>/',views.Manager_Profile,name="ManagerProfile"),
     path('CustomerProfile/<str:customer_email>/',views.Customer_Profile,name="CustomerProfile"),
     path('Vehicle/UploadVehicle',veh_views.upload_vehicle,name="UploadVehicle")

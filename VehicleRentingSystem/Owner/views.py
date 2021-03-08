@@ -4,6 +4,9 @@ from Owner.models import Owner
 from Manager.models import Manager
 from CustomerHome.models import Customer
 from Vehicles.models import Vehicle
+from RentVehicle.models import RentVehicle
+
+from datetime import datetime
 
 # Create your views here.
 def index(request):
@@ -114,3 +117,32 @@ def showdetails(request,Vehicle_license_plate):
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
     return render(request,'Owner_showdetails.html',{'vehicle':vehicle,'owner':owner})
+
+def CheckAvailability(request,Vehicle_license_plate):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    RentVehicle_Date_of_Booking=request.POST.get('RentVehicle_Date_of_Booking','')
+    RentVehicle_Date_of_Return=request.POST.get('RentVehicle_Date_of_Return','')
+
+    RentVehicle_Date_of_Booking = datetime.strptime(RentVehicle_Date_of_Booking, '%Y-%m-%d').date()
+    RentVehicle_Date_of_Return = datetime.strptime(RentVehicle_Date_of_Return, '%Y-%m-%d').date()
+
+    rentvehicle = RentVehicle.objects.filter(Vehicle_license_plate=Vehicle_license_plate)
+    vehicle = Vehicle.objects.get(Vehicle_license_plate=Vehicle_license_plate)
+
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+    
+    for rv in rentvehicle:
+        if rv.RentVehicle_Date_of_Booking <= RentVehicle_Date_of_Booking and RentVehicle_Date_of_Booking <= rv.RentVehicle_Date_of_Return:
+            if rv.isAvailable:
+                Available = True
+                Message = "Note that somebody has also requested for this vehicle from " + str(rv.RentVehicle_Date_of_Booking) + " to " + str(rv.RentVehicle_Date_of_Return)
+                return render(request,'Owner_showdetails.html',{'Message':Message,'Available':Available,'vehicle':vehicle,'owner':owner})
+
+            NotAvailable = True
+            return render(request,'Owner_showdetails.html',{'NotAvailable':NotAvailable,'dates':rv,'vehicle':vehicle,'owner':owner})
+    
+    Available = True
+    return render(request,'Owner_showdetails.html',{'Available':Available,'vehicle':vehicle,'owner':owner})
