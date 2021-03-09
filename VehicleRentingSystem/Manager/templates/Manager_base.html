@@ -47,10 +47,10 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="color: #f1f1f1;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Customer's Rentals
+                        Customer's Rentals <span class="badge badge-warning">{{no_of_pending_request}}</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Rent Requests</a>
+                        <a class="dropdown-item" href="/Manager/RentRequest">Rent Requests <span class="badge badge-warning mx-2">{{no_of_pending_request}}</span></a>
                         <a class="dropdown-item" href="#">Rental History</a>
                         <a class="dropdown-item" href="/Manager/AllCustomers">View All Customers</a>
                     </div>

@@ -17,6 +17,7 @@ urlpatterns = [
     path('UploadVehicle/',views.upload_Vehicle, name="UploadVehicle"),
     path('Vehicle/UploadVehicle',veh_views.upload_vehicle,name="UploadVehicle"),
     path('CheckAvailability/<str:Vehicle_license_plate>/',views.CheckAvailability,name="ManagerCheckAvailability"),
+    path('RentRequest/',views.RentRequest,name="RentRequest"),
 ]
 
 if settings.DEBUG:

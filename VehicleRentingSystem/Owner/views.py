@@ -16,21 +16,24 @@ def index(request):
     owner = Owner.objects.get(Owner_email=owner_email)
     vehicle = Vehicle.objects.all()
     Message="Welcome Aboard!!"
-    return render(request,'Owner_index.html',{'vehicle':vehicle,'Message':Message,'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'Owner_index.html',{'vehicle':vehicle,'Message':Message,'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def Profile(request):
     if('user_email' not in request.session):
         return redirect('/signin/')
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
-    return render(request,'Owner_Profile.html',{'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'Owner_Profile.html',{'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def register_manager(request):
     if('user_email' not in request.session):
         return redirect('/signin/')
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
-    return render(request,'register_manager.html',{'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'register_manager.html',{'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def ManagerRegistration(request):
     Manager_firstname=request.POST.get('Manager_firstname','')
@@ -69,7 +72,8 @@ def AllManagers(request):
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
     manager = Manager.objects.all()
-    return render(request,"All_Managers.html",{'manager':manager,'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,"All_Managers.html",{'manager':manager,'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def AllCustomers(request):
     if('user_email' not in request.session):
@@ -77,7 +81,8 @@ def AllCustomers(request):
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
     customer = Customer.objects.all()
-    return render(request,"All_Customers.html",{'customer':customer,'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,"All_Customers.html",{'customer':customer,'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def Manager_Profile(request,Manager_email):
     if('user_email' not in request.session):
@@ -85,7 +90,8 @@ def Manager_Profile(request,Manager_email):
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
     manager = Manager.objects.get(Manager_email=Manager_email)
-    return render(request,'Owner_Manager_Profile.html',{'owner':owner,'manager':manager})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'Owner_Manager_Profile.html',{'owner':owner,'manager':manager,'no_of_pending_request':no_of_pending_request})
 
 def Customer_Profile(request,customer_email):
     if('user_email' not in request.session):
@@ -93,14 +99,16 @@ def Customer_Profile(request,customer_email):
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
     customer = Customer.objects.get(customer_email=customer_email)
-    return render(request,'Owner_Customer_Profile.html',{'owner':owner,'customer':customer})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'Owner_Customer_Profile.html',{'owner':owner,'customer':customer,'no_of_pending_request':no_of_pending_request})
 
 def upload_Vehicle(request):
     if('user_email' not in request.session):
         return redirect('/signin/')
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
-    return render(request,"Owner_Upload_Vehicle.html",{'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,"Owner_Upload_Vehicle.html",{'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def AllVehicles(request):
     if('user_email' not in request.session):
@@ -108,7 +116,8 @@ def AllVehicles(request):
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
     vehicle = Vehicle.objects.all()
-    return render(request,"Owner_all_vehicles.html",{'vehicle':vehicle,'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,"Owner_all_vehicles.html",{'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def showdetails(request,Vehicle_license_plate):
     if('user_email' not in request.session):
@@ -116,7 +125,8 @@ def showdetails(request,Vehicle_license_plate):
     vehicle = Vehicle.objects.get(Vehicle_license_plate=Vehicle_license_plate)
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
-    return render(request,'Owner_showdetails.html',{'vehicle':vehicle,'owner':owner})
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'Owner_showdetails.html',{'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
 
 def CheckAvailability(request,Vehicle_license_plate):
     if('user_email' not in request.session):
@@ -133,16 +143,38 @@ def CheckAvailability(request,Vehicle_license_plate):
 
     owner_email = request.session.get('user_email')
     owner = Owner.objects.get(Owner_email=owner_email)
+
+    no_of_pending_request=count_pending_rent_request()
     
     for rv in rentvehicle:
         if rv.RentVehicle_Date_of_Booking <= RentVehicle_Date_of_Booking and RentVehicle_Date_of_Booking <= rv.RentVehicle_Date_of_Return:
             if rv.isAvailable:
                 Available = True
                 Message = "Note that somebody has also requested for this vehicle from " + str(rv.RentVehicle_Date_of_Booking) + " to " + str(rv.RentVehicle_Date_of_Return)
-                return render(request,'Owner_showdetails.html',{'Message':Message,'Available':Available,'vehicle':vehicle,'owner':owner})
+                return render(request,'Owner_showdetails.html',{'Message':Message,'Available':Available,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
 
             NotAvailable = True
-            return render(request,'Owner_showdetails.html',{'NotAvailable':NotAvailable,'dates':rv,'vehicle':vehicle,'owner':owner})
+            return render(request,'Owner_showdetails.html',{'NotAvailable':NotAvailable,'dates':rv,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
     
     Available = True
-    return render(request,'Owner_showdetails.html',{'Available':Available,'vehicle':vehicle,'owner':owner})
+    return render(request,'Owner_showdetails.html',{'Available':Available,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
+
+def RentRequest(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+
+    rentvehicle = RentVehicle.objects.all()
+    no_of_pending_request=count_pending_rent_request()
+    return render(request,'Owner_RentRequest.html',{'owner':owner,'rentvehicle':rentvehicle,'no_of_pending_request':no_of_pending_request})
+
+
+def count_pending_rent_request():
+    no_of_pending_request=0
+    rentvehicle = RentVehicle.objects.all()
+    for rv in rentvehicle:
+        if rv.request_status == "Pending":
+            no_of_pending_request+=1
+    return no_of_pending_request
