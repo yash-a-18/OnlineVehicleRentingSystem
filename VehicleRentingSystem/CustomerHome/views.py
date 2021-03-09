@@ -175,6 +175,21 @@ def CheckAvailability(request,Vehicle_license_plate):
     Available = True
     return render(request,'showdetails_loggedin.html',{'Available':Available,'vehicle':vehicle,'customer':customer})
 
+def SentRequests(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    customer_email = request.session.get('user_email')
+    customer = Customer.objects.get(customer_email=customer_email)
+
+    rentvehicle = RentVehicle.objects.filter(customer_email=customer_email)
+    if rentvehicle.exists():
+        vehicle = Vehicle.objects.all()
+        return render(request,'SentRequests.html',{'customer':customer,'rentvehicle':rentvehicle,'vehicle':vehicle})
+    else:
+        Message = "You haven't rented any vehicle yet!!"
+        return render(request,'SentRequests.html',{'customer':customer,'rentvehicle':rentvehicle,'Message':Message})
+
 def about_us(request):
     return HttpResponse('About Us')
     

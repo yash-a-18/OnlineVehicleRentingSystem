@@ -170,7 +170,6 @@ def RentRequest(request):
     no_of_pending_request=count_pending_rent_request()
     return render(request,'Owner_RentRequest.html',{'owner':owner,'rentvehicle':rentvehicle,'no_of_pending_request':no_of_pending_request})
 
-
 def count_pending_rent_request():
     no_of_pending_request=0
     rentvehicle = RentVehicle.objects.all()
