@@ -114,6 +114,22 @@ def RentRequest(request):
     no_of_pending_request=count_pending_rent_request()
     return render(request,'Manager_RentRequest.html',{'manager':manager,'rentvehicle':rentvehicle,'no_of_pending_request':no_of_pending_request})
 
+def SentRequests(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    manager_email = request.session.get('user_email')
+    manager = Manager.objects.get(Manager_email=manager_email)
+
+    no_of_pending_request=count_pending_rent_request()
+    
+    rentvehicle = RentVehicle.objects.filter(customer_email=manager_email)
+    if rentvehicle.exists():
+        vehicle = Vehicle.objects.all()
+        return render(request,'Manager_SentRequests.html',{'manager':manager,'rentvehicle':rentvehicle,'vehicle':vehicle,'no_of_pending_request':no_of_pending_request})
+    else:
+        Message = "You haven't rented any vehicle yet!!"
+        return render(request,'Manager_SentRequests.html',{'manager':manager,'rentvehicle':rentvehicle,'Message':Message,'no_of_pending_request':no_of_pending_request})
 
 def count_pending_rent_request():
     no_of_pending_request=0

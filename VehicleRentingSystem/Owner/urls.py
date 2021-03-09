@@ -19,6 +19,7 @@ urlpatterns = [
     path('VehicleDetails/<str:Vehicle_license_plate>/',views.showdetails,name="OwnerVehicleDetails"),
     path('CheckAvailability/<str:Vehicle_license_plate>/',views.CheckAvailability,name="OwnerCheckAvailability"),
     path('RentRequest/',views.RentRequest,name="RentRequest"),
+    path('SentRequests/',views.SentRequests,name="SentRequests"),
     path('ManagerProfile/<str:Manager_email>/',views.Manager_Profile,name="ManagerProfile"),
     path('CustomerProfile/<str:customer_email>/',views.Customer_Profile,name="CustomerProfile"),
     path('Vehicle/UploadVehicle',veh_views.upload_vehicle,name="UploadVehicle")
