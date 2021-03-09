@@ -145,19 +145,33 @@ def CheckAvailability(request,Vehicle_license_plate):
     owner = Owner.objects.get(Owner_email=owner_email)
 
     no_of_pending_request=count_pending_rent_request()
+
+    if RentVehicle_Date_of_Return < RentVehicle_Date_of_Booking:
+        Incorrect_dates = "Please give proper dates"
+        return render(request,'Owner_showdetails.html',{'Incorrect_dates':Incorrect_dates,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
+    
+    days=(RentVehicle_Date_of_Return-RentVehicle_Date_of_Booking).days+1
+    total=days*vehicle.Vehicle_price
+    
+    rent_data = {"RentVehicle_Date_of_Booking":RentVehicle_Date_of_Booking, "RentVehicle_Date_of_Return":RentVehicle_Date_of_Return,"days":days, "total":total}
     
     for rv in rentvehicle:
-        if rv.RentVehicle_Date_of_Booking <= RentVehicle_Date_of_Booking and RentVehicle_Date_of_Booking <= rv.RentVehicle_Date_of_Return:
+
+        if (RentVehicle_Date_of_Booking < rv.RentVehicle_Date_of_Booking and RentVehicle_Date_of_Return < rv.RentVehicle_Date_of_Booking) or (RentVehicle_Date_of_Booking > rv.RentVehicle_Date_of_Return and RentVehicle_Date_of_Return > rv.RentVehicle_Date_of_Return):
+            Available = True
+            return render(request,'Owner_showdetails.html',{'Available':Available,'vehicle':vehicle,'owner':owner,'rent_data':rent_data,'no_of_pending_request':no_of_pending_request})
+
+        if (rv.RentVehicle_Date_of_Booking >= RentVehicle_Date_of_Booking and RentVehicle_Date_of_Return >= rv.RentVehicle_Date_of_Booking) or (RentVehicle_Date_of_Booking >= rv.RentVehicle_Date_of_Booking and RentVehicle_Date_of_Return <= rv.RentVehicle_Date_of_Return) or (RentVehicle_Date_of_Booking <= rv.RentVehicle_Date_of_Return and RentVehicle_Date_of_Return >= rv.RentVehicle_Date_of_Return):
             if rv.isAvailable:
                 Available = True
                 Message = "Note that somebody has also requested for this vehicle from " + str(rv.RentVehicle_Date_of_Booking) + " to " + str(rv.RentVehicle_Date_of_Return)
-                return render(request,'Owner_showdetails.html',{'Message':Message,'Available':Available,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
+                return render(request,'Owner_showdetails.html',{'Message':Message,'Available':Available,'vehicle':vehicle,'owner':owner,'rent_data':rent_data,'no_of_pending_request':no_of_pending_request})
 
             NotAvailable = True
             return render(request,'Owner_showdetails.html',{'NotAvailable':NotAvailable,'dates':rv,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
     
     Available = True
-    return render(request,'Owner_showdetails.html',{'Available':Available,'vehicle':vehicle,'owner':owner,'no_of_pending_request':no_of_pending_request})
+    return render(request,'Owner_showdetails.html',{'Available':Available,'vehicle':vehicle,'owner':owner,'rent_data':rent_data,'no_of_pending_request':no_of_pending_request})
 
 def RentRequest(request):
     if('user_email' not in request.session):
