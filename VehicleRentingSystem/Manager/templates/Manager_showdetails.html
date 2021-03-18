@@ -99,29 +99,27 @@
                         {%if Available%}
                         <h5 class="card-title p-1" style="background-color: yellow; text-align: center;">Send Rent Request to Owner
                         </h5>
-                        <form>
+                        <form action="/RentVehicle/SendRequest_toOwner/" method="post">
+                            {% csrf_token %}
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="pickupdate"><b>Pickup Date</b></label>
-                                    <input type="text" class="form-control" id="pickupdate" name="RentVehicle_Date_of_Booking" value="{{rent_data.RentVehicle_Date_of_Booking}}" disabled>
+                                    <input type="text" class="form-control" id="pickupdate" name="RentVehicle_Date_of_Booking" value="{{rent_data.RentVehicle_Date_of_Booking}}" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="returndate"><b>Return Date</b></label>
-                                    <input type="text" class="form-control" id="returndate" name="RentVehicle_Date_of_Return" value="{{rent_data.RentVehicle_Date_of_Return}}" disabled>
+                                    <input type="text" class="form-control" id="returndate" name="RentVehicle_Date_of_Return" value="{{rent_data.RentVehicle_Date_of_Return}}" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="totaldays"><b>Total days</b></label>
-                                    <input type="text" class="form-control" id="totaldays" name="Total_days" value="{{rent_data.days}}" disabled>
+                                    <input type="text" class="form-control" id="totaldays" name="Total_days" value="{{rent_data.days}}" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="totalamount"><b>Total Amount</b></label>
-                                    <input type="text" class="form-control" id="totalamount" name="RentVehicle_Total_amount" value="{{rent_data.total}}" disabled>
+                                    <input type="text" class="form-control" id="totalamount" name="RentVehicle_Total_amount" value="{{rent_data.total}}" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <input type="text" class="form-control" id="Vehicle_license_plate" name="Vehicle_license_plate" value="{{vehicle.Vehicle_license_plate}}" hidden>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" id="customer_email" name="customer_email" value="{{manager.Manager_email}}" hidden>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <input type="submit" class="btn btn-success btn-block" value="Send Request" />

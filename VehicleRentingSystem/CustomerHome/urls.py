@@ -20,6 +20,7 @@ urlpatterns = [
     path('VehicleDetails/<str:Vehicle_license_plate>/',views.showdetails,name="VehicleDetails"),
     path('CheckAvailability/<str:Vehicle_license_plate>/',views.CheckAvailability,name="CheckAvailability"),
     path('SentRequests/',views.SentRequests,name="SentRequests"),
+    path('RentVehicle',include("RentVehicle.urls")),
     path('Owner/',include("Owner.urls")),
     path('Manager/',include("Manager.urls"))
 ]
