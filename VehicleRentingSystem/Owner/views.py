@@ -201,6 +201,16 @@ def SentRequests(request):
         Message = "You haven't rented any vehicle yet!!"
         return render(request,'Owner_SentRequests.html',{'owner':owner,'rentvehicle':rentvehicle,'Message':Message,'no_of_pending_request':no_of_pending_request})
 
+def DeleteManager(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    Manager_email = request.GET.get('Manager_email','')
+    manager = Manager.objects.get(Manager_email=Manager_email)
+    manager.delete()
+
+    return redirect('/Owner/AllManagers/')
+
 def count_pending_rent_request():
     no_of_pending_request=0
     rentvehicle = RentVehicle.objects.all()

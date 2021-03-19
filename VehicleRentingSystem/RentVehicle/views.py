@@ -90,8 +90,19 @@ def CancelRequest(request):
     if('user_email' not in request.session):
         return redirect('/signin/')
 
+    user_email = request.session.get('user_email')
     id = request.GET.get('id','')
     rentvehicle = RentVehicle.objects.get(id=id)
     rentvehicle.delete()
 
-    return redirect("/SentRequests/")
+    customer = Customer.objects.filter(customer_email=user_email)
+    if customer.exists():
+        return redirect("/SentRequests/")
+
+    manager = Manager.objects.filter(Manager_email=user_email)
+    if manager.exists():
+        return redirect("/Manager/SentRequests/")
+
+    owner = Owner.objects.filter(Owner_email=user_email)
+    if owner.exists():
+        return redirect("/Owner/SentRequests/")
