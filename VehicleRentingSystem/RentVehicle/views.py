@@ -45,3 +45,53 @@ def SendRequest_toOwner(request):
     owner = Owner.objects.filter(Owner_email=user_email)
     if owner.exists():
         return redirect("/Owner/SentRequests/")
+
+def AcceptRequest(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    user_email = request.session.get('user_email')
+    id = request.GET.get('id','')
+    rentvehicle = RentVehicle.objects.get(id=id)
+    rentvehicle.isAvailable= False
+    rentvehicle.request_responded_by = user_email
+    rentvehicle.request_status = "Accepted"
+    rentvehicle.save()
+
+    manager = Manager.objects.filter(Manager_email=user_email)
+    if manager.exists():
+        return redirect("/Manager/RentRequest/")
+    
+    owner = Owner.objects.filter(Owner_email=user_email)
+    if owner.exists():
+        return redirect("/Owner/RentRequest/")
+
+def DeclineRequest(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    user_email = request.session.get('user_email')
+    id = request.GET.get('id','')
+    rentvehicle = RentVehicle.objects.get(id=id)
+    rentvehicle.isAvailable= True
+    rentvehicle.request_responded_by = user_email
+    rentvehicle.request_status = "Declined"
+    rentvehicle.save()
+    
+    manager = Manager.objects.filter(Manager_email=user_email)
+    if manager.exists():
+        return redirect("/Manager/RentRequest/")
+    
+    owner = Owner.objects.filter(Owner_email=user_email)
+    if owner.exists():
+        return redirect("/Owner/RentRequest/")
+
+def CancelRequest(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    id = request.GET.get('id','')
+    rentvehicle = RentVehicle.objects.get(id=id)
+    rentvehicle.delete()
+
+    return redirect("/SentRequests/")

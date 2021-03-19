@@ -46,7 +46,7 @@
                         <td>{{rv.RentVehicle_Date_of_Return}}</td>
                         <td>{{rv.Total_days}}</td>
                         <td>{{rv.RentVehicle_Total_amount}}</td>
-                        <td><a class="btn btn-success" href="#">Accept</a> <a class="btn btn-danger" href="#">Decline</a></td>
+                        <td><a class="btn btn-success" href="/RentVehicle/AcceptRequest?id={{rv.id}}">Accept</a> <a class="btn btn-danger" href="/RentVehicle/DeclineRequest?id={{rv.id}}">Decline</a></td>
                     </tr>
                     {%endif%} {% endfor %}
                 </tbody>

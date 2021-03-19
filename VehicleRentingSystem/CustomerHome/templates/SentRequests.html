@@ -65,7 +65,7 @@
                         <td style="color: red; font-weight: bolder;">{{rv.request_status}}</td>
                         {%elif rv.request_status == "Pending"%}
                         <td><span style="color: chocolate; font-weight: bolder;">Pending <a class="btn btn-danger"
-                                    href="#">Cancel</a></td>
+                                    href="/RentVehicle/CancelRequest?id={{rv.id}}">Cancel</a></td>
                         {%endif%}
                     </tr>
                     {% endfor %}
