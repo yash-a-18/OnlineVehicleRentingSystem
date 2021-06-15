@@ -1,0 +1,139 @@
+{%extends 'Only_owner_navbar.html'%} {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Profile {% endblock %}</title>
+</head>
+
+<body>
+    {% block name %}{{owner.Owner_firstname}}{%endblock%} {% block pagecontent %}
+
+    <h3 class="display-4" style="text-align: center;">Customer Profile</h3>
+
+    <div class="container my-5">
+        <div class="row">
+            <!-- License Image -->
+            <div class="col-sm-4">
+                <div class="card p-2" style="width: auto;">
+                    <img class="card-img-top" src="{{customer.customer_license.url}}" alt="Your License">
+                    <div class="card-body">
+                        <h6 class="card-title">License</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information -->
+            <div class="col-sm-8">
+                <div class="card p-2" style="width: auto;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">First Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_firstname}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Last Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_lastname}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_email}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Date of Birth</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_dob}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Gender</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_gender}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Mobile Number</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_mobileno}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_address}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">City</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_city}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">State</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_state}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Country</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_country}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Pincode</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{customer.customer_pincode}}
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock pagecontent %}
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{%extends 'Only_owner_navbar.html'%} {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}All Customers{% endblock %}</title>
+</head>
+
+<body>
+    {% block name %}{{owner.Owner_firstname}}{%endblock%} {% block pagecontent %}
+    <h1 class="display-3" style="text-align: center;">Customers</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for value in customer %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{value.customer_firstname}}</td>
+                <td>{{value.customer_lastname}}</td>
+                <td>{{value.customer_email}}</td>
+                <td><a href="{% url 'CustomerProfile' value.customer_email%}">view</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock pagecontent %}
+</body>
+
+</html>

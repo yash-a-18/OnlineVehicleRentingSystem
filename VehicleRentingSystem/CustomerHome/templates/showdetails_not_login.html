@@ -1,0 +1,192 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Tab Logo -->
+    <link rel="icon" href="{% static 'img/Logos/TabTop2Logo.png' %}" type="image/gif" sizes="18x18">
+
+    <title>Fast Rentals - Vehicle Details</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/customer.css' %}">
+    <script src="{% static 'js/customer.js' %}" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style="font-size: larger;">
+        <a href="/"><img class="navbar-brand" src="{% static 'img/Logos/Trial3Logo.png' %}" height="50"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/" style=" color: #f1f1f1; ">Home</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" href="/signin" style="color: #f1f1f1;">Sign
+                        in</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    {% block pagecontent %}
+
+    <div class="container my-5">
+        <div class="row">
+            <!-- carousel Image -->
+            <div class="col-sm-7">
+                <div class="card p-2" style="width: auto;">
+                    <div id="Vehicle_{{vehicle.Vehicle_license_plate}}" class="carousel slide" data-interval="false">
+                        <ol class="carousel-indicators">
+                            <li data-target="#Vehicle_{{vehicle.Vehicle_license_plate}}" data-slide-to="0" class="active"></li>
+                            <li data-target="#Vehicle_{{vehicle.Vehicle_license_plate}}" data-slide-to="1"></li>
+                            <li data-target="#Vehicle_{{vehicle.Vehicle_license_plate}}" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{vehicle.Vehicle_image1.url}}" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{vehicle.Vehicle_image2.url}}" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{vehicle.Vehicle_image3.url}}" alt="Third slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#Vehicle_{{vehicle.Vehicle_license_plate}}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#Vehicle_{{vehicle.Vehicle_license_plate}}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title p-1" style="background-color: yellow; text-align: center;">Check Availability
+                        </h5>
+                        <form action="{% url 'CheckAvailability' vehicle.Vehicle_license_plate %}" class="px-4 py-3" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-4">
+                                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="RentVehicle_Date_of_Booking" class="form-control" placeholder="Pickup date" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="RentVehicle_Date_of_Return" class="form-control" placeholder="Return date" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="submit" class="btn btn-success" value="Check Availability" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information -->
+            <div class="col-sm-5">
+                <div class="card p-2" style="width: auto;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{vehicle.Vehicle_name}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Company</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{vehicle.Vehicle_company}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Model</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{vehicle.Vehicle_model}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Fuel Type</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{vehicle.Vehicle_fuel}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Seats</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{vehicle.Vehicle_No_of_Seats}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Gear Type</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {%if vehicle.isGeared%} Manual {%else%} Auto {%endif%}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">About</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{vehicle.Vehicle_description}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Price</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                ₹{{vehicle.Vehicle_price}} (per day)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock pagecontent %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN " crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
+</body>
+
+</html>

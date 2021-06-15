@@ -1,0 +1,125 @@
+{%extends 'Only_owner_navbar.html'%} {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Rent Requests{% endblock %}</title>
+</head>
+
+<body>
+    {% block name %}{{owner.Owner_firstname}}{%endblock%}{% block pagecontent %}
+    <h1 class="display-3" style="text-align: center;">Rent Requests</h1>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-pending-tab" data-toggle="tab" href="#nav-pending" role="tab" aria-controls="nav-pending" aria-selected="true">Pending 
+                <span class="badge badge-primary mx-2">{{no_of_pending_request}}</span>
+            </a>
+            <a class="nav-item nav-link" id="nav-accepted-tab" data-toggle="tab" href="#nav-accepted" role="tab" aria-controls="nav-accepted" aria-selected="false">Accepted</a>
+            <a class="nav-item nav-link" id="nav-decline-tab" data-toggle="tab" href="#nav-decline" role="tab" aria-controls="nav-decline" aria-selected="false">Declined</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <!-- Pending -->
+        <div class="tab-pane fade show active" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer Email</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Request Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %} {%if rv.request_status == "Pending"%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{rv.customer_email}}</td>
+                        <td>{{rv.Vehicle_license_plate}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        <td><a class="btn btn-success" href="/RentVehicle/AcceptRequest?id={{rv.id}}">Accept</a> <a class="btn btn-danger" href="/RentVehicle/DeclineRequest?id={{rv.id}}">Decline</a></td>
+                    </tr>
+                    {%endif%} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Accepted -->
+        <div class="tab-pane fade" id="nav-accepted" role="tabpanel" aria-labelledby="nav-accepted-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer Email</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Accepted by</th>
+                        <th scope="col">Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %} {%if rv.request_status == "Accepted"%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{rv.customer_email}}</td>
+                        <td>{{rv.Vehicle_license_plate}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        <td>{{rv.request_responded_by}}</td>
+                        <td style="color: green; font-weight: bolder;">{{rv.request_status}}</td>
+                    </tr>
+                    {%endif%} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Declined -->
+        <div class="tab-pane fade" id="nav-decline" role="tabpanel" aria-labelledby="nav-decline-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer Email</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Declined by</th>
+                        <th scope="col">Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %} {%if rv.request_status == "Declined"%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{rv.customer_email}}</td>
+                        <td>{{rv.Vehicle_license_plate}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        <td>{{rv.request_responded_by}}</td>
+                        <td style="color: red; font-weight: bolder;">{{rv.request_status}}</td>
+                    </tr>
+                    {%endif%} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endblock pagecontent %}
+</body>
+
+</html>

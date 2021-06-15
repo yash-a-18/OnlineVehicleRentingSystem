@@ -1,0 +1,185 @@
+{%extends 'Customer_only_navbar_Loggedin.html'%} {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Sent Requests {% endblock %}</title>
+</head>
+
+<body>
+    {% block name %}{{customer.customer_firstname}}{%endblock%} {% block pagecontent %} {%if Message%}
+    <div class="container mt-5">
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">NOT RENTED ANY YET!!</h4>
+            <p>You haven't made any rent request yet</p>
+            <hr>
+            <p class="mb-0">We have every type of vehicles you need within your budget. Nice, Neat and tidy. Go and get one.
+                <a href="/">Click here</a>
+            </p>
+        </div>
+    </div>
+    {%else%}
+    <h1 class="display-3" style="text-align: center;">Sent Requests</h1>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">All</a>
+            <a class="nav-item nav-link" id="nav-pending-tab" data-toggle="tab" href="#nav-pending" role="tab" aria-controls="nav-pending" aria-selected="false">Pending</a>
+            <a class="nav-item nav-link" id="nav-accepted-tab" data-toggle="tab" href="#nav-accepted" role="tab" aria-controls="nav-accepted" aria-selected="false">Accepted</a>
+            <a class="nav-item nav-link" id="nav-declined-tab" data-toggle="tab" href="#nav-declined" role="tab" aria-controls="nav-declined" aria-selected="false">Declined</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <!-- All -->
+        <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Price (per day)</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_name}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_price}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        {%if rv.request_status == "Accepted"%}
+                        <td style="color: green; font-weight: bolder;">{{rv.request_status}}</td>
+                        {%elif rv.request_status == "Declined"%}
+                        <td style="color: red; font-weight: bolder;">{{rv.request_status}}</td>
+                        {%elif rv.request_status == "Pending"%}
+                        <td><span style="color: chocolate; font-weight: bolder;">Pending <a class="btn btn-danger"
+                                    href="/RentVehicle/CancelRequest?id={{rv.id}}">Cancel</a></td>
+                        {%endif%}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pending -->
+        <div class="tab-pane fade" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Price (per day)</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %} {%if rv.request_status == "Pending"%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_name}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_price}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        <td><span style="color: chocolate; font-weight: bolder;">Pending <a class="btn btn-danger"
+                                    href="#">Cancel</a></td>
+                    </tr>
+                    {%endif%} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Accepted -->
+        <div class="tab-pane fade" id="nav-accepted" role="tabpanel" aria-labelledby="nav-accepted-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Price (per day)</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %} {%if rv.request_status == "Accepted"%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_name}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_price}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        <td style="color: green; font-weight: bolder;">{{rv.request_status}}</td>
+                    </tr>
+                    {%endif%} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Declined -->
+        <div class="tab-pane fade" id="nav-declined" role="tabpanel" aria-labelledby="nav-declined-tab">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Booking Date</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Price (per day)</th>
+                        <th scope="col">Number of Days</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rv in rentvehicle %} {%if rv.request_status == "Declined"%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_name}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.RentVehicle_Date_of_Booking}}</td>
+                        <td>{{rv.RentVehicle_Date_of_Return}}</td>
+                        {%for veh in vehicle%} {%if veh.Vehicle_license_plate == rv.Vehicle_license_plate%}
+                        <td>{{veh.Vehicle_price}}</td>
+                        {%endif%} {%endfor%}
+                        <td>{{rv.Total_days}}</td>
+                        <td>{{rv.RentVehicle_Total_amount}}</td>
+                        <td style="color: red; font-weight: bolder;">{{rv.request_status}}</td>
+                    </tr>
+                    {%endif%} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {%endif%} {% endblock pagecontent %}
+</body>
+
+</html>

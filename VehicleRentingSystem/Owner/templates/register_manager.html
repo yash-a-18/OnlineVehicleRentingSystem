@@ -1,0 +1,110 @@
+{%extends 'Only_owner_navbar.html'%} {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Register {% endblock %}</title>
+
+</head>
+
+<body>
+    {% block name %}{{owner.Owner_firstname}}{%endblock%} {% block pagecontent %}
+    <h1 class="display-4" style="text-align: center;">Register Manager</h1>
+
+    {%if Message%}
+    <div class="container">
+        <div class="alert alert-warning alert-dismissible fade show my-2" role="alert">
+            <strong>{{Message}}!!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    {%endif%}
+
+    <div class="container my-5 p-3 lead" id="signin">
+        <form action="/Owner/ManagerRegistration/" class="px-4 py-3" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" id="firstname" name="Manager_firstname" placeholder="Mark" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" class="form-control" id="lastname" name="Manager_lastname" placeholder="Bond" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="Manager_dob" placeholder="Date of birth" autocomplete="off" required>
+            </div>
+            <label>Gender</label>
+            <div class="form-row">
+                <div class="form-check px-4">
+                    <input class="form-check-input" type="radio" name="Manager_gender" id="Male" value="Male" style="cursor: pointer;" checked>
+                    <label class="form-check-label" for="Male">
+                    Male
+                </label>
+                </div>
+                <div class="form-check px-4">
+                    <input class="form-check-input" type="radio" name="Manager_gender" id="Female" value="Female" style="cursor: pointer;">
+                    <label class="form-check-label" for="Female">
+                    Female
+                </label>
+                </div>
+                <div class="form-check px-4">
+                    <input class="form-check-input" type="radio" name="Manager_gender" id="Other" value="Other" style="cursor: pointer;">
+                    <label class="form-check-label" for="Other">
+                    Other
+                </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mobileno">Mobile Number</label>
+                <input type="text" class="form-control" name="Manager_mobileno" id="mobileno" placeholder="0123456789" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" name="Manager_email" id="email" placeholder="email@example.com" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="Manager_password" id="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" name="Manager_address" id="address" placeholder="123 Main Street, Apartment, studio, or floor" autocomplete="off" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" name="Manager_city" id="city" autocomplete="off" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" name="Manager_state" id="state" autocomplete="off" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" name="Manager_country" id="country" autocomplete="off" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="zip">Zip</label>
+                    <input type="text" class="form-control" name="Manager_pincode" id="zip" placeholder="Pincode" autocomplete="off" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputZip">Upload License</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="Manager_license" id="license" style="cursor: pointer;" required>
+                    <label class="custom-file-label" for="license">Choose file...</label>
+                </div>
+            </div>
+            <input type="submit" value="Register" class="btn btn-primary" />
+        </form>
+    </div>
+
+    {% endblock pagecontent %}
+</body>
+
+</html>
