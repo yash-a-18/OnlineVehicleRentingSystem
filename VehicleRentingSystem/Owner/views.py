@@ -10,6 +10,10 @@ from datetime import datetime
 from datetime import date
 import os
 from VehicleRentingSystem.settings import MEDIA_ROOT
+import matplotlib
+from matplotlib import pyplot as plt
+matplotlib.use('Agg')
+import io, base64
 
 # Create your views here.
 def index(request):
@@ -137,8 +141,9 @@ def CheckAvailability(request,Vehicle_license_plate):
 
     RentVehicle_Date_of_Booking=request.POST.get('RentVehicle_Date_of_Booking','')
     RentVehicle_Date_of_Return=request.POST.get('RentVehicle_Date_of_Return','')
-
+    print(RentVehicle_Date_of_Booking)
     RentVehicle_Date_of_Booking = datetime.strptime(RentVehicle_Date_of_Booking, '%Y-%m-%d').date()
+    print(RentVehicle_Date_of_Booking)
     RentVehicle_Date_of_Return = datetime.strptime(RentVehicle_Date_of_Return, '%Y-%m-%d').date()
 
     rentvehicle = RentVehicle.objects.filter(Vehicle_license_plate=Vehicle_license_plate)
@@ -245,3 +250,118 @@ def count_pending_rent_request():
         if rv.request_status == "Pending":
             no_of_pending_request+=1
     return no_of_pending_request
+
+def customer_gender_chart():
+    customer = Customer.objects.all()
+    fig = plt.figure(figsize =(10, 7))
+    male_counter = 0
+    female_counter = 0
+    other = 0
+    for cust in customer:
+        if cust.customer_gender == 'Male':
+            male_counter += 1
+        elif cust.customer_gender == 'Female':
+            female_counter += 1
+        else:
+            other += 1
+    gender = ['Male','Female', 'Other']
+    data = [male_counter, female_counter, other]
+
+    plt.pie(data, labels = gender, autopct='%1.1f%%', startangle=90)
+    flike = io.BytesIO()
+    fig.savefig(flike)
+    cust_gender = base64.b64encode(flike.getvalue()).decode()
+    return cust_gender
+
+def customer_no_of_rent_request():
+    cust_dict = {}
+    rentvehicle = RentVehicle.objects.all()
+    for rv in rentvehicle:
+        if rv.customer_email not in cust_dict.keys():
+            cust_dict[rv.customer_email] = 1
+        else:
+            cust_dict[rv.customer_email] += 1
+    cust_email = list(cust_dict.keys())
+    cust_no_of_rent_request = list(cust_dict.values())
+    fig = plt.figure(figsize = (12, 6))
+ 
+    # creating the bar plot
+    plt.bar(cust_email, cust_no_of_rent_request, color ='green',
+            width = 0.4)
+    plt.xticks(cust_email, cust_email, rotation=10, horizontalalignment='right')
+    plt.xlabel("Customer Email")
+    plt.ylabel("No. of Rent Requests")
+    plt.show()
+    flike = io.BytesIO()
+    fig.savefig(flike)
+    cust_no_of_rent_request = base64.b64encode(flike.getvalue()).decode()
+    return cust_no_of_rent_request
+
+def Vehicle_type_chart():
+    vehicle = Vehicle.objects.all()
+    fig = plt.figure(figsize =(10, 7))
+    bicycle, bike, bus, car, scooter, tourist_van, truck, other = 0, 0, 0, 0, 0, 0, 0, 0
+    for v in vehicle:
+        if v.Vehicle_type == 'Bicycle':
+            bicycle += 1
+        elif v.Vehicle_type == 'Bike':
+            bike += 1
+        elif v.Vehicle_type == 'Bus':
+            bus += 1
+        elif v.Vehicle_type == 'Car':
+            car += 1
+        elif v.Vehicle_type == 'Scooter':
+            scooter += 1
+        elif v.Vehicle_type == 'Tourist Van':
+            tourist_van += 1
+        elif v.Vehicle_type == 'Truck':
+            truck += 1
+        else:
+            other += 1
+    type = ['Bicycle','Bike', 'Bus', 'Car', 'Scooter', 'Tourist Van', 'Truck', 'Other']
+    data = [bicycle, bike, bus, car, scooter, tourist_van, truck, other]
+
+    plt.pie(data, labels = type, autopct='%1.1f%%', startangle=90)
+    flike = io.BytesIO()
+    fig.savefig(flike)
+    v_type = base64.b64encode(flike.getvalue()).decode()
+    return v_type
+
+def Vehicle_no_of_rent_request():
+    veh_dict = {}
+    rentvehicle = RentVehicle.objects.all()
+    for rv in rentvehicle:
+        if rv.Vehicle_license_plate not in veh_dict.keys():
+            veh_dict[rv.Vehicle_license_plate] = 1
+        else:
+            veh_dict[rv.Vehicle_license_plate] += 1
+    v_license_plate = list(veh_dict.keys())
+    v_no_of_rent_request = list(veh_dict.values())
+    fig = plt.figure(figsize = (12, 6))
+ 
+    # creating the bar plot
+    plt.bar(v_license_plate, v_no_of_rent_request, color ='maroon',
+            width = 0.4)
+    plt.xticks(v_license_plate, v_license_plate, rotation=10, horizontalalignment='right')
+    plt.xlabel("Vehicle License Plate")
+    plt.ylabel("No. of Rent Requests")
+    plt.show()
+    flike = io.BytesIO()
+    fig.savefig(flike)
+    v_no_of_rent_request = base64.b64encode(flike.getvalue()).decode()
+    return v_no_of_rent_request
+
+def ViewAnalysis(request):
+    if('user_email' not in request.session):
+        return redirect('/signin/')
+
+    owner_email = request.session.get('user_email')
+    owner = Owner.objects.get(Owner_email=owner_email)
+
+    no_of_pending_request=count_pending_rent_request()
+    cust_gender = customer_gender_chart()
+    cust_no_of_rent_request = customer_no_of_rent_request()
+    v_type = Vehicle_type_chart
+    v_no_of_rent_request = Vehicle_no_of_rent_request()
+    
+    return render(request, 'Analysis.html', {'owner':owner, 'no_of_pending_request':no_of_pending_request,'cust_gender':cust_gender, 'cust_rent_request':cust_no_of_rent_request, 'v_type':v_type, 'v_rent_request':v_no_of_rent_request})

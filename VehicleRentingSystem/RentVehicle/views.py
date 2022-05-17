@@ -23,9 +23,8 @@ def SendRequest_toOwner(request):
     RentVehicle_Total_amount=request.POST.get('RentVehicle_Total_amount','')
     Vehicle_license_plate=request.POST.get('Vehicle_license_plate','')
     RentVehicle_Date_of_Booking=request.POST.get('RentVehicle_Date_of_Booking','')
-
-    RentVehicle_Date_of_Booking = datetime.strptime(RentVehicle_Date_of_Booking, '%B %d, %Y').date()
-    RentVehicle_Date_of_Return = datetime.strptime(RentVehicle_Date_of_Return, '%B %d, %Y').date()
+    RentVehicle_Date_of_Booking = datetime.strptime(RentVehicle_Date_of_Booking, "%b. %d, %Y").date()
+    RentVehicle_Date_of_Return = datetime.strptime(RentVehicle_Date_of_Return, "%b. %d, %Y").date()
     
     rentvehicle = RentVehicle(RentVehicle_Date_of_Booking=RentVehicle_Date_of_Booking,
     RentVehicle_Date_of_Return=RentVehicle_Date_of_Return,
